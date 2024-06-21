@@ -3,6 +3,10 @@ import Dialogs from "./Dialogs";
 import {RootState} from "../../redux/reduxStore";
 import {ActionsTypes} from "../../redux/store";
 import {connect} from "react-redux";
+import {compose} from "redux";
+import React from "react";
+import {withRouter} from "react-router-dom";
+import {withAuthRedirect} from "../../HOC/withAuthRedirect";
 
 
 let mapStateToProps = (state: RootState) => {
@@ -22,6 +26,12 @@ let mapDispatchToProps = (dispatch: (action: ActionsTypes) => void) => {
         }
     }
 }
-const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs)
+/*const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs)
 
-export default DialogsContainer
+export default DialogsContainer*/
+
+
+export default compose<React.ComponentType>(
+    connect(mapStateToProps, mapDispatchToProps),
+    withRouter
+)(Dialogs)

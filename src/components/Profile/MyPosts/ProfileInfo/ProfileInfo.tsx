@@ -1,6 +1,7 @@
 import React from 'react';
 import s from './ProfileInfo.module.css';
 import Preloader from "../../../common/Preloader/Preloader";
+import ProfileStatus from "./ProfileStatus";
 
 export type userProfilePropsType = {
     aboutMe: string,
@@ -25,7 +26,9 @@ export type userProfilePropsType = {
 }
 
 export type ProfileInfoPropsType = {
-    profile: userProfilePropsType
+    profile: userProfilePropsType,
+    status: string,
+    updateUserStatus: (status: string) => void
 }
 
 const ProfileInfo = (props: ProfileInfoPropsType) => {
@@ -41,12 +44,12 @@ const ProfileInfo = (props: ProfileInfoPropsType) => {
                 alt={'asd'}>
             </img>
         </div>
-        <div className={s.descriptionBlock}> Аva + description</div>
+        {/*<div className={s.descriptionBlock}> Аva + description</div>*/}
+        <ProfileStatus status={props.status} updateUserStatus={props.updateUserStatus}/>
 
-      <img src={props.profile.photos.large}/>
-          {/*{props.profile.fullName}
-        {props.profile.aboutMe}*/}
-        
+
+
+        <img src={props.profile.photos.large}/>
 
     </div>
 }

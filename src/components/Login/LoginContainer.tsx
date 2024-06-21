@@ -5,6 +5,9 @@ import {connect} from "react-redux";
 import {getAuthUserData} from "../../redux/authReducer";
 import {RootState} from "../../redux/reduxStore";
 import {withRouter} from "react-router-dom";
+import {compose} from "redux";
+import {getUserProfile} from "../../redux/profileReducer";
+import {withAuthRedirect} from "../../HOC/withAuthRedirect";
 
 
 class LoginContainer extends React.Component<any, any> {
@@ -24,8 +27,8 @@ class LoginContainer extends React.Component<any, any> {
     }
 
     render() {
-        return <Login {...this.props} />
-
+        /*return <Login {...this.props} />*/
+        return <Login />
     }
 }
 
@@ -33,7 +36,15 @@ const mapStateToProps = (state: RootState) => ({
     isAuth: state.auth.isAuth,
     login: state.auth.login
 })
+/*
 
 let withUrlDataContainerComponent = withRouter(LoginContainer)
 
 export default connect(mapStateToProps, {getAuthUserData})(withUrlDataContainerComponent)
+
+*/
+
+export default compose<React.ComponentType>(
+    connect(mapStateToProps, {getAuthUserData}),
+    withRouter
+)(LoginContainer)

@@ -5,6 +5,9 @@ import {connect} from "react-redux";
 import {getAuthUserData} from "../../redux/authReducer";
 import {RootState} from "../../redux/reduxStore";
 import {withRouter} from "react-router-dom";
+import {compose} from "redux";
+import {getUserProfile} from "../../redux/profileReducer";
+import {withAuthRedirect} from "../../HOC/withAuthRedirect";
 
 
 class HeaderContainer extends React.Component<any, any> {
@@ -34,6 +37,9 @@ const mapStateToProps = (state: RootState) => ({
     login: state.auth.login
 })
 
-let withUrlDataContainerComponent = withRouter(HeaderContainer)
 
-export default connect(mapStateToProps, {getAuthUserData})(withUrlDataContainerComponent)
+
+export default compose<React.ComponentType>(
+    connect(mapStateToProps,  {getAuthUserData}),
+    withRouter
+)(HeaderContainer)

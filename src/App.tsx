@@ -56,8 +56,8 @@ export type AppStatePropsType = {
         posts: Array<PostPropsType>,
         newPostText: string,
         dialogs: Array<DialogsPropsType>,
-        profile: userProfilePropsType
-    },
+        profile: userProfilePropsType,
+        },
     dialogsPage: {
         messages: Array<MessagePropsType>,
         newMessageText: string

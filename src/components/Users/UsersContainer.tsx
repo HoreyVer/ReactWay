@@ -10,6 +10,8 @@ import {
 } from "../../redux/usersReducer";
 import Users from "./Users";
 import Preloader from "../common/Preloader/Preloader";
+import {compose} from "redux";
+
 
 
 type UsersType = {
@@ -67,7 +69,7 @@ let mapStateToProps = (state: RootState) => {
     }
 }
 
-export default connect(mapStateToProps, {
+/*export default connect(mapStateToProps, {
         unfollowSuccess,
         followSuccess,
         setCurrentPage,
@@ -77,4 +79,17 @@ export default connect(mapStateToProps, {
         unfollow
 
     }
+)(UsersContainer)*/
+
+export default compose<React.ComponentType>(
+    connect(mapStateToProps, {
+        unfollowSuccess,
+        followSuccess,
+        setCurrentPage,
+        toggleFollowingProgress,
+        getUsers,
+        follow,
+        unfollow
+
+    })
 )(UsersContainer)

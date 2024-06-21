@@ -1,14 +1,13 @@
 import {PostPropsType} from "../App";
 import {ActionsTypes} from "./store";
-import { userProfilePropsType} from "../components/Profile/MyPosts/ProfileInfo/ProfileInfo";
+import {userProfilePropsType} from "../components/Profile/MyPosts/ProfileInfo/ProfileInfo";
 import {Dispatch} from "redux";
-import profile from "../components/Profile/Profile";
-import {usersAPI} from "../api/api";
+import {profileAPI, usersAPI} from "../api/api";
 
 const ADD_POST = "ADD_POST"
 const UPDATE_NEW_POST_TEXT = "UPDATE_NEW_POST_TEXT"
 const SET_USER_PROFILE = "SET_USER_PROFILE"
-
+const SET_STATUS = "SET_STATUS"
 
 export let addPostActionCreator = (postText: string) => {
     return {
@@ -32,10 +31,39 @@ export let setUserProfile = (profile: userProfilePropsType) => {
     } as const
 }
 
-export let getUserProfile = (userId: number) => (dispath: Dispatch) => {
+export let getUserProfile = (userId: number) => (dispatch: Dispatch) => {
     return usersAPI.getProfile(userId)
         .then(response => {
-            setUserProfile(response.data)
+            dispatch(setUserProfile(response.data))
+        })
+
+}
+
+export let setUserStatus = (status: string) => {
+
+    return {
+        type: "SET_STATUS",
+        status: status
+    } as const
+}
+
+export const getUserStatus = (userId: number) => (dispatch: Dispatch) => {
+    return profileAPI.getStatus(userId)
+        .then(response => {
+
+            dispatch(setUserStatus(response.data))
+
+        })
+
+}
+
+export const updateUserStatus = (status: string) => (dispatсh: Dispatch) => {
+    return profileAPI.updateStatus(status)
+        .then(response => {
+
+            if (response.data.resultCode === 0) (
+                dispatсh(setUserStatus(status))
+            )
         })
 }
 
@@ -57,7 +85,8 @@ const initState = {
         {id: 5, name: 'Oleg'},
         {id: 6, name: 'Viktor'}
     ],
-    profile: {aboutMe: "",
+    profile: {
+        aboutMe: "",
         contacts: {
             facebook: '',
             website: '',
@@ -71,11 +100,13 @@ const initState = {
         lookingForAJob: false,
         lookingForAJobDescription: '',
         fullName: '',
-        userId: 1,
+        userId: 28566,
         photos: {
             small: '',
             large: ''
-        }}
+        }
+    },
+    status: ""
 }
 
 const profileReducer = (state = initState, action: ActionsTypes) => {
@@ -103,6 +134,14 @@ const profileReducer = (state = initState, action: ActionsTypes) => {
             return {
                 ...state,
                 profile: action.profile
+            }
+        }
+        case SET_STATUS: {
+            return {
+
+                ...state,
+                status: action.status
+
             }
         }
         default:

@@ -5,20 +5,20 @@ import sideBarReducer from "./sideBarReducer";
 import usersReducer from "./usersReducer";
 import authReducer from "./authReducer";
 import thunkMiddleware from "redux-thunk";
+import {reducer as formReducer} from "redux-form";
+
 
 let rootReducer = combineReducers({
     profilePage: profileReducer,
     dialogsPage: dialogReducer,
     sidebar: sideBarReducer,
     usersPage: usersReducer,
-    auth: authReducer
+    auth: authReducer,
+    form: formReducer
 })
 
 let store =  legacy_createStore(rootReducer, applyMiddleware(thunkMiddleware))
-/*window.store*/
-/*
-window.s
-*/
+
 
 export type AppStateType = ReturnType<typeof rootReducer>
 export type RootState = ReturnType<typeof store.getState>
